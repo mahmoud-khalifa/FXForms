@@ -46,6 +46,8 @@
              
              @"dateOfBirth",
              
+             @{FXFormFieldKey: @"duration", FXFormFieldCell: [FXFormDurationCell class]},
+             
              //we want to use a stepper control for this value, so let's specify that
              
              @{FXFormFieldKey: @"age", FXFormFieldCell: [FXFormStepperCell class]},

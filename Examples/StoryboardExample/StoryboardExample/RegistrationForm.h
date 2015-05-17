@@ -44,6 +44,7 @@ typedef NS_OPTIONS(NSInteger, ServicePlan)
 @property (nonatomic, assign) Gender gender;
 @property (nonatomic, assign) NSUInteger age;
 @property (nonatomic, strong) NSDate *dateOfBirth;
+@property (nonatomic, strong) NSNumber *duration;
 @property (nonatomic, strong) UIImage *profilePhoto;
 @property (nonatomic, copy) NSString *phone;
 @property (nonatomic, copy) NSString *country;
