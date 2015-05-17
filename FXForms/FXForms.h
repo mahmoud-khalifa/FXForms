@@ -254,6 +254,11 @@ UIKIT_EXTERN NSString *const FXFormFieldTypeImage; //image
 @end
 
 
+@interface FXFormDurationCell : FXFormDatePickerCell
+
+@end
+
+
 @interface FXFormImagePickerCell : FXFormBaseCell
 
 @property (nonatomic, readonly) UIImageView *imagePickerView;

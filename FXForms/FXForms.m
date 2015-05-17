@@ -3403,6 +3403,62 @@ static void FXFormPreprocessFieldDictionary(NSMutableDictionary *dictionary)
 @end
 
 
+@implementation FXFormDurationCell
+
+- (void)update
+{
+    self.textLabel.text = self.field.title;
+    self.detailTextLabel.text = [self.field fieldDescription] ?: [self.field.placeholder fieldDescription];
+    self.datePicker.datePickerMode =  UIDatePickerModeCountDownTimer;
+    
+    if (self.field.value) {
+        NSNumber *duration = (NSNumber *)self.field.value;
+        self.datePicker.date = [self getDateFromDuration:duration.intValue];
+        self.detailTextLabel.text = [self formateDuration:duration];
+    }
+}
+
+- (void)valueChanged
+{
+    NSDateComponents *time = [[NSCalendar currentCalendar]
+                              components:NSCalendarUnitHour | NSCalendarUnitMinute
+                              fromDate:self.datePicker.date];
+    NSInteger seconds = ([time hour] * 60 * 60) + ([time minute] * 60);
+    NSNumber *duration = [NSNumber numberWithInteger:seconds];
+    
+    self.field.value = duration;
+    self.detailTextLabel.text = [self formateDuration:duration];
+    [self setNeedsLayout];
+    
+    if (self.field.action) self.field.action(self);
+}
+- (NSDate *)getDateFromDuration:(int)seconds {
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setCalendar:[NSCalendar currentCalendar]];
+    [components setHour:seconds/3600];
+    [components setMinute:(seconds%3600)/60];
+    
+    return [[NSCalendar currentCalendar] dateFromComponents:components];
+}
+
+- (NSString *)formateDuration:(NSNumber *)duration {
+    int seconds = duration.intValue;
+    int hours = seconds/3600;
+    
+    seconds = seconds%3600;
+    int minutes = seconds/60;
+    
+    seconds = seconds%60;
+    
+    NSString *formattedDuratoin = [NSString stringWithFormat:@"%d:%02d:%02d", hours, minutes, seconds];
+    return formattedDuratoin;
+}
+
+@end
+
+
+
 @interface FXFormImagePickerCell () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) UIImagePickerController *imagePickerController;
